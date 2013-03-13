@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <title></title>
+</head>
+<body>
+
+    <ul class="nav nav-tabs" id="cronGenTabs">
+        <li class="active"><a href="#Minutes">Minutes</a></li>
+        <li><a href="#Hourly">Hourly</a></li>
+        <li><a href="#Daily">Daily</a></li>
+        <li><a href="#Weekly">Weekly</a></li>
+        <li><a href="#Monthly">Monthly</a></li>
+        <li><a href="#Yearly">Yearly</a></li>
+    </ul>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span6">
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="Minutes">
+                        Every&nbsp;
+                        <input id="minutesInput" type="text" value="1" style="width: 40px" />
+                        &nbsp;minute(s)
+                    </div>
+                    <div class="tab-pane" id="Hourly">
+                        <div class="well well-small">
+                            <input type="radio" id="continuousHourly" name="hourlyRadio" checked="checked" />&nbsp;Every
+                            <input id="hoursInput" type="text" value="1" style="width: 40px" />&nbsp;
+                            hour(s)
+                        </div>
+                        <div class="well well-small">
+                            <input type="radio" id="atHour" name="hourlyRadio" />&nbsp;At&nbsp;
+                            <select id="atHours" style="width: 60px"></select>
+                            <select id="atMinutes" style="width: 60px"></select>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Daily">
+                        <div class="well well-small">
+                            <input type="radio" id="CountinuousDaily" name="dailyRadio" checked="checked" />&nbsp;Every
+                            <input id="Text1" type="text" value="1" style="width: 40px" />&nbsp;
+                            day(s)
+                        </div>
+                        <div class="well well-small">
+                            <input type="radio" id="EveryDay" name="dailyRadio" />&nbsp;Every week day&nbsp;
+                        </div>
+                        Start time
+                        <select id="DailyHours" style="width: 60px"></select>
+                        <select id="DailyMinutes" style="width: 60px"></select>
+                    </div>
+                    <div class="tab-pane" id="Weekly">
+                        <div class="well well-large">
+                            <div class="span3">
+                                <input type="checkbox" value="MON" />&nbsp;Monday<br />
+                                <input type="checkbox" value="FRI" />&nbsp;Friday
+                            </div>
+                            <div class="span3">
+                                <input type="checkbox" value="TUE" />&nbsp;Tuesday<br />
+                                <input type="checkbox" value="SAT" />&nbsp;Saturday
+                            </div>
+                            <div class="span3">
+                                <input type="checkbox" value="WED" />&nbsp;Wednesday<br />
+                                <input type="checkbox" value="SUN" />&nbsp;Sunday
+                            </div>
+                            <div class="span3">
+                                <input type="checkbox" value="THU" />&nbsp;Thursday<br />
+                            </div>
+                            <br />
+                            <br />
+                        </div>
+                        Start time
+                        <select id="WeeklyHours" style="width: 60px"></select>
+                        <select id="WeeklyMinutes" style="width: 60px"></select>
+                    </div>
+                    <div class="tab-pane" id="Monthly">Monthly...</div>
+                    <div class="tab-pane" id="Yearly">Yearly...</div>
+                </div>
+            </div>
+            <div class="span6">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+
+            $('#cronGenTabs a:first').tab('show');
+            fillDataForHourlyTab();
+        });
+        $('#cronGenTabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        var fillDataForHourlyTab = function () {
+            for (var i = 0; i < 60; i++) {
+                if (i < 24) {
+                    $("#atHours").append(timeSelectOption(i));
+                    $("#DailyHours").append(timeSelectOption(i));
+                    $("#WeeklyHours").append(timeSelectOption(i));
+                }
+                $("#atMinutes").append(timeSelectOption(i));
+                $("#DailyMinutes").append(timeSelectOption(i));
+                $("#WeeklyMinutes").append(timeSelectOption(i));
+            }
+        };
+        var displayTimeUnit = function (unit) {
+            if (unit.toString().length == 1)
+                return "0" + unit;
+            return unit;
+        };
+        var timeSelectOption = function (i) {
+            return "<option id='" + i + "'>" + displayTimeUnit(i) + "</option>";
+        };
+    </script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
