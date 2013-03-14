@@ -23,29 +23,29 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="Minutes">
                         Every&nbsp;
-                        <input id="minutesInput" type="text" value="1" style="width: 40px" />
+                        <input id="MinutesInput" type="text" value="1" style="width: 40px" />
                         &nbsp;minute(s)
                     </div>
                     <div class="tab-pane" id="Hourly">
                         <div class="well well-small">
-                            <input type="radio" id="continuousHourly" name="hourlyRadio" checked="checked" />&nbsp;Every
-                            <input id="hoursInput" type="text" value="1" style="width: 40px" />&nbsp;
+                            <input type="radio" value="1" name="HourlyRadio" checked="checked" />&nbsp;Every
+                            <input id="HoursInput" type="text" value="1" style="width: 40px" />&nbsp;
                             hour(s)
                         </div>
                         <div class="well well-small">
-                            <input type="radio" id="atHour" name="hourlyRadio" />&nbsp;At&nbsp;
-                            <select id="atHours" class="hours" style="width: 60px"></select>
-                            <select id="atMinutes" class="minutes" style="width: 60px"></select>
+                            <input type="radio" value="2" name="HourlyRadio" />&nbsp;At&nbsp;
+                            <select id="AtHours" class="hours" style="width: 60px"></select>
+                            <select id="AtMinutes" class="minutes" style="width: 60px"></select>
                         </div>
                     </div>
                     <div class="tab-pane" id="Daily">
                         <div class="well well-small">
-                            <input type="radio" id="CountinuousDaily" name="dailyRadio" checked="checked" />&nbsp;Every
-                            <input id="Text1" type="text" value="1" style="width: 40px" />&nbsp;
+                            <input type="radio" value="1" name="DailyRadio" checked="checked" />&nbsp;Every
+                            <input id="DaysInput" type="text" value="1" style="width: 40px" />&nbsp;
                             day(s)
                         </div>
                         <div class="well well-small">
-                            <input type="radio" id="EveryDay" name="dailyRadio" />&nbsp;Every week day&nbsp;
+                            <input type="radio" value="2" name="DailyRadio" />&nbsp;Every week day&nbsp;
                         </div>
                         Start time
                         <select id="DailyHours" class="hours" style="width: 60px"></select>

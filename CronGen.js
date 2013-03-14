@@ -71,11 +71,27 @@ var generate = function () {
     var results = "";
     switch (activeTab) {
         case "MinutesTab":
-            results = "0 0/" + $("#minutesInput").val() + " * 1/1 * ? *";
+            results = "0 0/" + $("#MinutesInput").val() + " * 1/1 * ? *";
             break;
         case "HourlyTab":
+            switch ($("input:radio[name=HourlyRadio]:checked").val()) {
+                case "1":
+                    results = "0 0 0/" + $("#HoursInput").val() + " 1/1 * ? *";
+                    break;
+                case "2":
+                    results = "0 " + $("#AtMinutes").val() + " " + $("#AtHours").val() + " 1/1 * ? *";
+                    break;
+            }
             break;
         case "DailyTab":
+            switch ($("input:radio[name=DailyRadio]:checked").val()) {
+                case "1":
+                    results = "0 " + $("#DailyMinutes").val() + " " + $("#DailyHours").val() + " 1/" + $("#DaysInput").val() + " * ? *";
+                    break;
+                case "2":
+                    results = "0 " + $("#DailyMinutes").val() + " " + $("#DailyHours").val() + " ? * MON-FRI *";
+                    break;
+            }
             break;
         case "WeeklyTab":
             break;
@@ -83,8 +99,6 @@ var generate = function () {
             break;
         case "YearlyTab":
             break;
-
-        default:
     }
     $("#Results").val(results);
 };
