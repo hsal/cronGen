@@ -9,7 +9,6 @@
     <title></title>
 </head>
 <body>
-
     <ul class="nav nav-tabs" id="cronGenTabs">
         <li class="active"><a href="#Minutes">Minutes</a></li>
         <li><a href="#Hourly">Hourly</a></li>
@@ -36,8 +35,8 @@
                         </div>
                         <div class="well well-small">
                             <input type="radio" id="atHour" name="hourlyRadio" />&nbsp;At&nbsp;
-                            <select id="atHours" style="width: 60px"></select>
-                            <select id="atMinutes" style="width: 60px"></select>
+                            <select id="atHours" class="hours" style="width: 60px"></select>
+                            <select id="atMinutes" class="minutes" style="width: 60px"></select>
                         </div>
                     </div>
                     <div class="tab-pane" id="Daily">
@@ -50,8 +49,8 @@
                             <input type="radio" id="EveryDay" name="dailyRadio" />&nbsp;Every week day&nbsp;
                         </div>
                         Start time
-                        <select id="DailyHours" style="width: 60px"></select>
-                        <select id="DailyMinutes" style="width: 60px"></select>
+                        <select id="DailyHours" class="hours" style="width: 60px"></select>
+                        <select id="DailyMinutes" class="minutes" style="width: 60px"></select>
                     </div>
                     <div class="tab-pane" id="Weekly">
                         <div class="well well-large">
@@ -74,11 +73,43 @@
                             <br />
                         </div>
                         Start time
-                        <select id="WeeklyHours" style="width: 60px"></select>
-                        <select id="WeeklyMinutes" style="width: 60px"></select>
+                        <select id="WeeklyHours" class="hours" style="width: 60px"></select>
+                        <select id="WeeklyMinutes" class="minutes" style="width: 60px"></select>
                     </div>
-                    <div class="tab-pane" id="Monthly">Monthly...</div>
-                    <div class="tab-pane" id="Yearly">Yearly...</div>
+                    <div class="tab-pane" id="Monthly">
+                        <div class="well well-small">
+                            <input type="radio" id="DayOfMonthRadio" name="MonthlyRadio" checked="checked" />&nbsp;Day
+                            <input id="DayOfMOnthInput" type="text" value="1" style="width: 40px" />&nbsp;of every
+                            <input id="MonthInput" type="text" value="1" style="width: 40px" />
+                            month(s)
+                        </div>
+                        <div class="well well-small">
+                            <input type="radio" id="DayWeekOfMonthRadio" name="MonthlyRadio" />&nbsp;The&nbsp;
+                            <select id="DayInWeekOrder" class="week-days" style="width: 120px"></select>
+                            <select id="WeekDay" class="day-order-in-month" style="width: 100px"></select>&nbsp;of every&nbsp;
+                            <input id="EveryMonthInput" type="text" value="1" style="width: 40px" />&nbsp;month(s)
+                        </div>
+                        Start time
+                        <select id="MonthlyHours" class="hours" style="width: 60px"></select>
+                        <select id="MonthlyMinutes" class="minutes" style="width: 60px"></select>
+                    </div>
+                    <div class="tab-pane" id="Yearly">
+                        <div class="well well-small">
+                            <input type="radio" id="EveryMonth" name="MonthlyRadio" checked="checked" />&nbsp;Every&nbsp;
+                            <select id="MonthsOfYear" class="months" style="width: 150px" />&nbsp;in day&nbsp;
+                            <input id="YearInput" type="text" value="1" style="width: 150px" />
+                            month(s)
+                        </div>
+                        <div class="well well-small">
+                            <input type="radio" id="ExactMonth" name="MonthlyRadio" />&nbsp;The&nbsp;
+                            <select id="DayWeekForYear" class="week-days" style="width: 120px"></select>
+                            <select id="DayOrderInYear" class="day-order-in-month" style="width: 100px"></select>&nbsp;of&nbsp;
+                            <select id="MonthsOfYear2" class="months" style="width: 150px"></select>
+                        </div>
+                        Start time
+                        <select id="YearlyHours" class="hours" style="width: 60px"></select>
+                        <select id="YearlyMinutes" class="minutes" style="width: 60px"></select>
+                    </div>
                 </div>
             </div>
             <div class="span6">
@@ -88,26 +119,75 @@
 
     <script>
         $(function () {
-
             $('#cronGenTabs a:first').tab('show');
-            fillDataForHourlyTab();
+            fillDataOfMinutesAndHoursSelectOptions();
+            fillDayWeekInMonth();
+            fillInWeekDays();
+            fillInMonths();
         });
         $('#cronGenTabs a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
         });
 
-        var fillDataForHourlyTab = function () {
+
+        var fillInMonths = function () {
+            var days = [
+                { text: "January", val: "1" },
+                { text: "February", val: "2" },
+                { text: "March", val: "3" },
+                { text: "April", val: "4" },
+                { text: "May", val: "5" },
+                { text: "June", val: "6" },
+                { text: "July", val: "7" },
+                { text: "August", val: "8" },
+                { text: "September", val: "9" },
+                { text: "October", val: "10" },
+                { text: "Novermber", val: "11" },
+                { text: "December", val: "12" }
+            ];
+            $(".months").each(function () {
+                fillOptions(this, days);
+            });
+        };
+
+        var fillOptions = function (elements, options) {
+            for (var i = 0; i < options.length; i++)
+                $(elements).append("<option value='" + options[i].val + "'>" + options[i].text + "</option>");
+        };
+        var fillDataOfMinutesAndHoursSelectOptions = function () {
             for (var i = 0; i < 60; i++) {
                 if (i < 24) {
-                    $("#atHours").append(timeSelectOption(i));
-                    $("#DailyHours").append(timeSelectOption(i));
-                    $("#WeeklyHours").append(timeSelectOption(i));
+                    $(".hours").each(function () { $(this).append(timeSelectOption(i)); });
                 }
-                $("#atMinutes").append(timeSelectOption(i));
-                $("#DailyMinutes").append(timeSelectOption(i));
-                $("#WeeklyMinutes").append(timeSelectOption(i));
+                $(".minutes").each(function () { $(this).append(timeSelectOption(i)); });
             }
+        };
+        var fillInWeekDays = function () {
+            var days = [
+                { text: "Monday", val: "MON" },
+                { text: "Tuesday", val: "TUE" },
+                { text: "Wednesday", val: "WED" },
+                { text: "Thursday", val: "THU" },
+                { text: "Friday", val: "FRI" },
+                { text: "Saturday", val: "SAT" },
+                { text: "Sunday", val: "SUN" }
+            ];
+            $(".week-days").each(function () {
+                fillOptions(this, days);
+            });
+
+        };
+        var fillDayWeekInMonth = function () {
+            var days = [
+                { text: "First", val: "1" },
+                { text: "Second", val: "2" },
+                { text: "Thrid", val: "3" },
+                { text: "Fourth", val: "4" }
+            ];
+            $(".day-order-in-month").each(function () {
+                fillOptions(this, days);
+            });
         };
         var displayTimeUnit = function (unit) {
             if (unit.toString().length == 1)
