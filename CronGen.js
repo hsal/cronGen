@@ -1,4 +1,202 @@
-﻿var fillInMonths = function () {
+﻿(function ($) {
+    $.fn.extend({
+        cronGen: function () {
+            //create top menu
+            var topMenu = $("<ul/>", { "class": "nav nav-tabs", id: "CronGenTabs" });
+            $('<li/>', { 'class': 'active' }).html($('<a id="MinutesTab" href="#Minutes">Minutes</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="HourlyTab" href="#Hourly">Hourly</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="DailyTab" href="#Daily">Daily</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="WeeklyTab" href="#Weekly">Weekly</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="MonthlyTab" href="#Monthly">Monthly</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="YearlyTab" href="#Yearly">Yearly</a>')).appendTo(topMenu);
+            $(topMenu).appendTo(this);
+
+            //create what's inside the tabs
+            var container = $("<div/>", { "class": "container-fluid" });
+            var row = $("<div/>", { "class": "row-fluid" });
+            var span12 = $("<div/>", { "class": "span12" });
+            var tabContent = $("<div/>", { "class": "tab-content" });
+
+            //creating the minutesTab
+            var minutesTab = $("<div/>", { "class": "tab-pane active", id: "Minutes" });
+            $(minutesTab).append("Every&nbsp;");
+            $("<input/>", { id: "MinutesInput", type: "text", value: "1", style: "width: 40px" }).appendTo(minutesTab);
+            $(minutesTab).append("&nbsp;minute(s)");
+            $(minutesTab).appendTo(tabContent);
+
+            //creating the hourlyTab
+            var hourlyTab = $("<div/>", { "class": "tab-pane", id: "Hourly" });
+
+            var hourlyOption1 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "1", name: "HourlyRadio", checked: "checked" }).appendTo(hourlyOption1);
+            $(hourlyOption1).append("&nbsp;Every&nbsp;");
+            $("<input/>", { id: "HoursInput", type: "text", value: "1", style: "width: 40px" }).appendTo(hourlyOption1);
+            $(hourlyOption1).append("&nbsp;hour(s)");
+            $(hourlyOption1).appendTo(hourlyTab);
+
+            var hourlyOption2 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "2", name: "HourlyRadio" }).appendTo(hourlyOption2);
+            $(hourlyOption2).append("&nbsp;At&nbsp;");
+            $(hourlyOption2).append('<select id="AtHours" class="hours" style="width: 60px"></select>');
+            $(hourlyOption2).append('<select id="AtMinutes" class="minutes" style="width: 60px"></select>');
+            $(hourlyOption2).appendTo(hourlyTab);
+
+            $(hourlyTab).appendTo(tabContent);
+
+            //craeting the dailyTab
+            var dailyTab = $("<div/>", { "class": "tab-pane", id: "Daily" });
+
+            var dailyOption1 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "1", name: "DailyRadio", checked: "checked" }).appendTo(dailyOption1);
+            $(dailyOption1).append("&nbsp;Every&nbsp;");
+            $("<input/>", { id: "DaysInput", type: "text", value: "1", style: "width: 40px" }).appendTo(dailyOption1);
+            $(dailyOption1).append("&nbsp;day(s)");
+            $(dailyOption1).appendTo(dailyTab);
+
+            var dailyOption2 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "2", name: "DailyRadio" }).appendTo(dailyOption2);
+            $(dailyOption2).append("&nbsp;Every week day&nbsp;");
+            $(dailyOption2).appendTo(dailyTab);
+
+            $(dailyTab).append("Start time&nbsp;");
+            $(dailyTab).append('<select id="DailyHours" class="hours" style="width: 60px"></select>');
+            $(dailyTab).append('<select id="DailyMinutes" class="minutes" style="width: 60px"></select>');
+
+            $(dailyTab).appendTo(tabContent);
+
+            //craeting the weeklyTab
+            var weeklyTab = $("<div/>", { "class": "tab-pane", id: "Weekly" });
+            var weeklyWell = $("<div/>", { "class": "well well-small" });
+            
+            var span31 = $("<div/>", { "class": "span6" });
+            $("<input/>", { type: "checkbox", value: "MON" }).appendTo(span31);
+            $(span31).append("&nbsp;Monday<br />");
+            $("<input/>", { type: "checkbox", value: "WED" }).appendTo(span31);
+            $(span31).append("&nbsp;Wednesday<br />");
+            $("<input/>", { type: "checkbox", value: "FRI" }).appendTo(span31);
+            $(span31).append("&nbsp;Friday<br />");
+            $("<input/>", { type: "checkbox", value: "SUN" }).appendTo(span31);
+            $(span31).append("&nbsp;Sunday");
+
+            var span32 = $("<div/>", { "class": "span6" });
+            $("<input/>", { type: "checkbox", value: "TUE" }).appendTo(span32);
+            $(span32).append("&nbsp;Tuesday<br />");
+            $("<input/>", { type: "checkbox", value: "THU" }).appendTo(span32);
+            $(span32).append("&nbsp;Thursday<br />");
+            $("<input/>", { type: "checkbox", value: "SAT" }).appendTo(span32);
+            $(span32).append("&nbsp;Saturday");
+            
+            $(span31).appendTo(weeklyWell);
+            $(span32).appendTo(weeklyWell);
+            //Hack to fix the well box
+            $("<br /><br /><br /><br />").appendTo(weeklyWell);
+
+            $(weeklyWell).appendTo(weeklyTab);
+
+            $(weeklyTab).append("Start time&nbsp;");
+            $(weeklyTab).append('<select id="WeeklyHours" class="hours" style="width: 60px"></select>');
+            $(weeklyTab).append('<select id="WeeklyMinutes" class="minutes" style="width: 60px"></select>');
+
+            $(weeklyTab).appendTo(tabContent);
+
+            //craeting the monthlyTab
+            var monthlyTab = $("<div/>", { "class": "tab-pane", id: "Monthly" });
+
+            var monthlyOption1 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "1", name: "MonthlyRadio", checked: "checked" }).appendTo(monthlyOption1);
+            $(monthlyOption1).append("&nbsp;Day");
+            $("<input/>", { id: "DayOfMOnthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption1);
+            $(monthlyOption1).append("&nbsp;of every&nbsp;");
+            $("<input/>", { id: "MonthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption1);
+            $(monthlyOption1).append("&nbsp;month(s)");
+            $(monthlyOption1).appendTo(monthlyTab);
+
+            var monthlyOption2 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "2", name: "MonthlyRadio" }).appendTo(monthlyOption2);
+            $(monthlyOption2).append("&nbsp;The&nbsp;");
+            $(monthlyOption2).append('<select id="WeekDay" class="day-order-in-month" style="width: 100px"></select>');
+            $(monthlyOption2).append('<select id="DayInWeekOrder" class="week-days" style="width: 120px"></select>');
+            $(monthlyOption2).append("&nbsp;of every&nbsp;");
+            $("<input/>", { id: "EveryMonthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption2);
+            $(monthlyOption2).append("&nbsp;month(s)");
+            $(monthlyOption2).appendTo(monthlyTab);
+
+            $(monthlyTab).append("Start time&nbsp;");
+            $(monthlyTab).append('<select id="MonthlyHours" class="hours" style="width: 60px"></select>');
+            $(monthlyTab).append('<select id="MonthlyMinutes" class="minutes" style="width: 60px"></select>');
+
+            $(monthlyTab).appendTo(tabContent);
+
+            //craeting the yearlyTab
+            var yearlyTab = $("<div/>", { "class": "tab-pane", id: "Yearly" });
+
+            var yearlyOption1 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "1", name: "YearlyRadio", checked: "checked" }).appendTo(yearlyOption1);
+            $(yearlyOption1).append("&nbsp;Every&nbsp");
+            $(yearlyOption1).append('<select id="MonthsOfYear" class="months" style="width: 150px"></select>');
+            $(yearlyOption1).append("&nbsp;in day&nbsp;");
+            $("<input/>", { id: "YearInput", type: "text", value: "1", style: "width: 150px" }).appendTo(yearlyOption1);
+            $(yearlyOption1).appendTo(yearlyTab);
+
+            var yearlyOption2 = $("<div/>", { "class": "well well-small" });
+            $("<input/>", { type: "radio", value: "2", name: "YearlyRadio" }).appendTo(yearlyOption2);
+            $(yearlyOption2).append("&nbsp;The&nbsp;");
+            $(yearlyOption2).append('<select id="DayOrderInYear" class="day-order-in-month" style="width: 100px"></select>');
+            $(yearlyOption2).append('<select id="DayWeekForYear" class="week-days" style="width: 120px"></select>');
+            $(yearlyOption2).append("&nbsp;of&nbsp;");
+            $(yearlyOption2).append('<select id="MonthsOfYear2" class="months" style="width: 150px"></select>');
+            $(yearlyOption2).appendTo(yearlyTab);
+
+            $(yearlyTab).append("Start time&nbsp;");
+            $(yearlyTab).append('<select id="YearlyHours" class="hours" style="width: 60px"></select>');
+            $(yearlyTab).append('<select id="YearlyMinutes" class="minutes" style="width: 60px"></select>');
+
+            $(yearlyTab).appendTo(tabContent);
+            $(tabContent).appendTo(span12);
+
+            //creating the button and results input
+            var buttonAndResultsInput = $("<div/>", { "class": "well well-small" });
+            $("<button class='btn' onclick='generate();'>Generate cron</button>").appendTo(buttonAndResultsInput);
+            $("<input/>", { id: "Results", readonly: "readonly" }).appendTo(buttonAndResultsInput);
+            $(buttonAndResultsInput).appendTo(span12);
+
+            $(span12).appendTo(row);
+            $(row).appendTo(container);
+            $(container).appendTo(this);
+
+            $('#CronGenTabs a:first').tab('show');
+            fillDataOfMinutesAndHoursSelectOptions();
+            fillDayWeekInMonth();
+            fillInWeekDays();
+            fillInMonths();
+
+            $('#CronGenTabs a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+                generate();
+            });
+            return;
+        }
+    });
+
+})(jQuery);
+
+$("<div/>", {
+    "class": "someelement",
+    // .. you can go on and add properties
+    "css": {
+        "color": "red"
+    },
+    "click": function () {
+        alert("you just clicked me!!");
+    },
+    "data": {
+        "foo": "bar"
+    }
+}).appendTo("#container");
+
+
+var fillInMonths = function () {
     var days = [
         { text: "January", val: "1" },
         { text: "February", val: "2" },
@@ -67,7 +265,7 @@ var timeSelectOption = function (i) {
 
 var generate = function () {
 
-    var activeTab = $("ul#cronGenTabs li.active a").prop("id");
+    var activeTab = $("ul#CronGenTabs li.active a").prop("id");
     var results = "";
     switch (activeTab) {
         case "MinutesTab":
