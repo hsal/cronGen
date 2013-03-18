@@ -1,7 +1,10 @@
-﻿(function ($) {
+﻿var resultsName = "";
+(function ($) {
     $.fn.extend({
         cronGen: function () {
             //create top menu
+            var cronContainer = $("<div/>", { id: "CronContainer", style: "display:none;width:300px;height:300px;" });
+            var mainDiv = $("<div/>", { id: "CronGenMainDiv", style: "width:430px;height:270px;" });
             var topMenu = $("<ul/>", { "class": "nav nav-tabs", id: "CronGenTabs" });
             $('<li/>', { 'class': 'active' }).html($('<a id="MinutesTab" href="#Minutes">Minutes</a>')).appendTo(topMenu);
             $('<li/>').html($('<a id="HourlyTab" href="#Hourly">Hourly</a>')).appendTo(topMenu);
@@ -9,7 +12,7 @@
             $('<li/>').html($('<a id="WeeklyTab" href="#Weekly">Weekly</a>')).appendTo(topMenu);
             $('<li/>').html($('<a id="MonthlyTab" href="#Monthly">Monthly</a>')).appendTo(topMenu);
             $('<li/>').html($('<a id="YearlyTab" href="#Yearly">Yearly</a>')).appendTo(topMenu);
-            $(topMenu).appendTo(this);
+            $(topMenu).appendTo(mainDiv);
 
             //create what's inside the tabs
             var container = $("<div/>", { "class": "container-fluid" });
@@ -67,7 +70,7 @@
             //craeting the weeklyTab
             var weeklyTab = $("<div/>", { "class": "tab-pane", id: "Weekly" });
             var weeklyWell = $("<div/>", { "class": "well well-small" });
-            
+
             var span31 = $("<div/>", { "class": "span6" });
             $("<input/>", { type: "checkbox", value: "MON" }).appendTo(span31);
             $(span31).append("&nbsp;Monday<br />");
@@ -85,7 +88,7 @@
             $(span32).append("&nbsp;Thursday<br />");
             $("<input/>", { type: "checkbox", value: "SAT" }).appendTo(span32);
             $(span32).append("&nbsp;Saturday");
-            
+
             $(span31).appendTo(weeklyWell);
             $(span32).appendTo(weeklyWell);
             //Hack to fix the well box
@@ -104,7 +107,7 @@
 
             var monthlyOption1 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "1", name: "MonthlyRadio", checked: "checked" }).appendTo(monthlyOption1);
-            $(monthlyOption1).append("&nbsp;Day");
+            $(monthlyOption1).append("&nbsp;Day&nbsp");
             $("<input/>", { id: "DayOfMOnthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption1);
             $(monthlyOption1).append("&nbsp;of every&nbsp;");
             $("<input/>", { id: "MonthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption1);
@@ -113,9 +116,8 @@
 
             var monthlyOption2 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "2", name: "MonthlyRadio" }).appendTo(monthlyOption2);
-            $(monthlyOption2).append("&nbsp;The&nbsp;");
-            $(monthlyOption2).append('<select id="WeekDay" class="day-order-in-month" style="width: 100px"></select>');
-            $(monthlyOption2).append('<select id="DayInWeekOrder" class="week-days" style="width: 120px"></select>');
+            $(monthlyOption2).append('<select id="WeekDay" class="day-order-in-month" style="width: 80px"></select>');
+            $(monthlyOption2).append('<select id="DayInWeekOrder" class="week-days" style="width: 100px"></select>');
             $(monthlyOption2).append("&nbsp;of every&nbsp;");
             $("<input/>", { id: "EveryMonthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption2);
             $(monthlyOption2).append("&nbsp;month(s)");
@@ -135,16 +137,16 @@
             $(yearlyOption1).append("&nbsp;Every&nbsp");
             $(yearlyOption1).append('<select id="MonthsOfYear" class="months" style="width: 150px"></select>');
             $(yearlyOption1).append("&nbsp;in day&nbsp;");
-            $("<input/>", { id: "YearInput", type: "text", value: "1", style: "width: 150px" }).appendTo(yearlyOption1);
+            $("<input/>", { id: "YearInput", type: "text", value: "1", style: "width: 40px" }).appendTo(yearlyOption1);
             $(yearlyOption1).appendTo(yearlyTab);
 
             var yearlyOption2 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "2", name: "YearlyRadio" }).appendTo(yearlyOption2);
             $(yearlyOption2).append("&nbsp;The&nbsp;");
-            $(yearlyOption2).append('<select id="DayOrderInYear" class="day-order-in-month" style="width: 100px"></select>');
-            $(yearlyOption2).append('<select id="DayWeekForYear" class="week-days" style="width: 120px"></select>');
+            $(yearlyOption2).append('<select id="DayOrderInYear" class="day-order-in-month" style="width: 80px"></select>');
+            $(yearlyOption2).append('<select id="DayWeekForYear" class="week-days" style="width: 100px"></select>');
             $(yearlyOption2).append("&nbsp;of&nbsp;");
-            $(yearlyOption2).append('<select id="MonthsOfYear2" class="months" style="width: 150px"></select>');
+            $(yearlyOption2).append('<select id="MonthsOfYear2" class="months" style="width: 110px"></select>');
             $(yearlyOption2).appendTo(yearlyTab);
 
             $(yearlyTab).append("Start time&nbsp;");
@@ -155,24 +157,37 @@
             $(tabContent).appendTo(span12);
 
             //creating the button and results input
-            var buttonAndResultsInput = $("<div/>", { "class": "well well-small" });
-            $("<button class='btn' onclick='generate();'>Generate cron</button>").appendTo(buttonAndResultsInput);
-            $("<input/>", { id: "Results", readonly: "readonly" }).appendTo(buttonAndResultsInput);
-            $(buttonAndResultsInput).appendTo(span12);
+            $(this).prop("readonly", "readonly");
+            resultsName = $(this).prop("id");
+            $(this).prop("name", resultsName);
 
             $(span12).appendTo(row);
             $(row).appendTo(container);
-            $(container).appendTo(this);
+            $(container).appendTo(mainDiv);
+            $(cronContainer).append(mainDiv);
+            $(this).after('<a href="#" id="cronGenPopOver" class="icon-edit" data-original-title="Create cron"></a>');
 
-            $('#CronGenTabs a:first').tab('show');
-            fillDataOfMinutesAndHoursSelectOptions();
-            fillDayWeekInMonth();
-            fillInWeekDays();
-            fillInMonths();
+            $("#cronGenPopOver").popover({
+                html: true,
+                content: function () {
+                    return $(cronContainer).html();
+                },
+                template: '<div class="popover" style="width:450px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
+                placement: 'bottom'
 
-            $('#CronGenTabs a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
+            }).on('click', function () {
+                fillDataOfMinutesAndHoursSelectOptions();
+                fillDayWeekInMonth();
+                fillInWeekDays();
+                fillInMonths();
+                $('#CronGenTabs a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                    generate();
+                });
+                $("#CronGenMainDiv select,input").change(function (e) {
+                    generate();
+                });
                 generate();
             });
             return;
@@ -319,5 +334,5 @@ var generate = function () {
             }
             break;
     }
-    $("#Results").val(results);
+    $("#" + resultsName).val(results);
 };
