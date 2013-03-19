@@ -4,7 +4,7 @@
         cronGen: function () {
             //create top menu
             var cronContainer = $("<div/>", { id: "CronContainer", style: "display:none;width:300px;height:300px;" });
-            var mainDiv = $("<div/>", { id: "CronGenMainDiv", style: "width:430px;height:270px;" });
+            var mainDiv = $("<div/>", { id: "CronGenMainDiv", style: "width:450px;height:270px;" });
             var topMenu = $("<ul/>", { "class": "nav nav-tabs", id: "CronGenTabs" });
             $('<li/>', { 'class': 'active' }).html($('<a id="MinutesTab" href="#Minutes">Minutes</a>')).appendTo(topMenu);
             $('<li/>').html($('<a id="HourlyTab" href="#Hourly">Hourly</a>')).appendTo(topMenu);
@@ -116,6 +116,7 @@
 
             var monthlyOption2 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "2", name: "MonthlyRadio" }).appendTo(monthlyOption2);
+            $(monthlyOption2).append("&nbsp;");
             $(monthlyOption2).append('<select id="WeekDay" class="day-order-in-month" style="width: 80px"></select>');
             $(monthlyOption2).append('<select id="DayInWeekOrder" class="week-days" style="width: 100px"></select>');
             $(monthlyOption2).append("&nbsp;of every&nbsp;");
@@ -165,14 +166,14 @@
             $(row).appendTo(container);
             $(container).appendTo(mainDiv);
             $(cronContainer).append(mainDiv);
-            $(this).after('<a href="#" id="cronGenPopOver" class="icon-edit" data-original-title="Create cron"></a>');
+            $(this).after('&nbsp;<a href="#" id="cronGenPopOver" class="icon-edit" data-original-title="Generate cron"></a>');
 
             $("#cronGenPopOver").popover({
                 html: true,
                 content: function () {
                     return $(cronContainer).html();
                 },
-                template: '<div class="popover" style="width:450px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
+                template: '<div class="popover" style="width:470px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
                 placement: 'bottom'
 
             }).on('click', function () {
@@ -183,12 +184,15 @@
                 $('#CronGenTabs a').click(function (e) {
                     e.preventDefault();
                     $(this).tab('show');
-                    generate();
+                    //generate();
                 });
                 $("#CronGenMainDiv select,input").change(function (e) {
                     generate();
                 });
-                generate();
+                $("#CronGenMainDiv input").focus(function (e) {
+                    generate();
+                });
+                //generate();
             });
             return;
         }
