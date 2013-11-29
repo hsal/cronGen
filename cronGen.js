@@ -4,7 +4,7 @@
         cronGen: function () {
             //create top menu
             var cronContainer = $("<div/>", { id: "CronContainer", style: "display:none;width:300px;height:300px;" });
-            var mainDiv = $("<div/>", { id: "CronGenMainDiv", style: "width:450px;height:270px;" });
+            var mainDiv = $("<div/>", { id: "CronGenMainDiv", style: "width:480px;height:270px;" });
             var topMenu = $("<ul/>", { "class": "nav nav-tabs", id: "CronGenTabs" });
             $('<li/>', { 'class': 'active' }).html($('<a id="MinutesTab" href="#Minutes">Minutes</a>')).appendTo(topMenu);
             $('<li/>').html($('<a id="HourlyTab" href="#Hourly">Hourly</a>')).appendTo(topMenu);
@@ -15,7 +15,7 @@
             $(topMenu).appendTo(mainDiv);
 
             //create what's inside the tabs
-            var container = $("<div/>", { "class": "container-fluid" });
+            var container = $("<div/>", { "class": "container-fluid", "style": "margin-top: 10px" });
             var row = $("<div/>", { "class": "row-fluid" });
             var span12 = $("<div/>", { "class": "span12" });
             var tabContent = $("<div/>", { "class": "tab-content" });
@@ -71,7 +71,7 @@
             var weeklyTab = $("<div/>", { "class": "tab-pane", id: "Weekly" });
             var weeklyWell = $("<div/>", { "class": "well well-small" });
 
-            var span31 = $("<div/>", { "class": "span6" });
+            var span31 = $("<div/>", { "class": "span6 col-sm-6" });
             $("<input/>", { type: "checkbox", value: "MON" }).appendTo(span31);
             $(span31).append("&nbsp;Monday<br />");
             $("<input/>", { type: "checkbox", value: "WED" }).appendTo(span31);
@@ -81,7 +81,7 @@
             $("<input/>", { type: "checkbox", value: "SUN" }).appendTo(span31);
             $(span31).append("&nbsp;Sunday");
 
-            var span32 = $("<div/>", { "class": "span6" });
+            var span32 = $("<div/>", { "class": "span6 col-sm-6" });
             $("<input/>", { type: "checkbox", value: "TUE" }).appendTo(span32);
             $(span32).append("&nbsp;Tuesday<br />");
             $("<input/>", { type: "checkbox", value: "THU" }).appendTo(span32);
@@ -166,14 +166,14 @@
             $(row).appendTo(container);
             $(container).appendTo(mainDiv);
             $(cronContainer).append(mainDiv);
-            $(this).after('&nbsp;<a href="#" id="cronGenPopOver" class="icon-edit" data-original-title="Generate cron"></a>');
+            $(this).after('&nbsp;<a href="#" id="cronGenPopOver" class="icon-edit glyphicon glyphicon-edit" data-original-title="Generate cron"></a>');
 
             $("#cronGenPopOver").popover({
                 html: true,
                 content: function () {
                     return $(cronContainer).html();
                 },
-                template: '<div class="popover" style="width:470px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
+                template: '<div class="popover" style="max-width:500px !important; width:500px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
                 placement: 'bottom'
 
             }).on('click', function () {
