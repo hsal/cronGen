@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <title></title>
+</head>
+    <body>
+	<div class="container">
+		<form role="form" class="form-inline">
+			<div class="form-group">
+				<label for="cron">Cron</label>
+				<input id="cron" class="form-control" />
+			</div>
+		</form>
+	</div>       
+    
+    <script>
+            $(function () {
+                $("#cron").cronGen();                
+            });
+        </script>
+        <script src="CronGen.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.js"></script>
+    </body>
+</html>
