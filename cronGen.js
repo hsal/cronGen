@@ -352,7 +352,7 @@
         }
 
         // Update original control
-        inputElement.val(results);
+        inputElement.val(results).change();
         // Update display
         displayElement.val(results);
     };
